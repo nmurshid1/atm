@@ -81,10 +81,10 @@ int main()
 		switch (UserSelection)
 		{
 			case 1:	WithdrawMoney(UserSelect()); break;
-			case 2:	DepositMoney(UserSelect());	 break;
-			case 3:	BalanceInquiry(); 			 break;
-			case 4:	return 0;					 break;
-			default: cout << "Wrong Input!"; 	 break;
+			case 2:	DepositMoney(UserSelect());  break;
+			case 3:	BalanceInquiry(); 	     break;
+			case 4:	return 0;		     break;
+			default: cout << "Wrong Input!";     break;
 		}
 	}
 	return 0;
