@@ -6,7 +6,7 @@ using namespace std;
 int UserSelection = -1;
 int balance = 10000;
 
-void LoadingScreen()
+/*void LoadingScreen()
 {
 	string loading = "Loading.........";
 	for (int i = 0; i < 7; i++) {
@@ -19,7 +19,7 @@ void LoadingScreen()
 	}
 	cout << "\n";	
 
-}
+}*/
 
 int UserSelect()
 {
@@ -36,38 +36,47 @@ void MainMenu()
 	cout << "4. Exit\n";
 }
 
-void WithdrawMoney(int withdrawal)
+void SuccessfulTransaction(int mode)
+{
+	cout << "Transaction Successful!\n";
+	if (mode == 1)
+		cout << "New balance: $" << balance << "\n";
+	if (mode == 2)
+		cout << "New balance: $" << balance << "\n";
+}
+
+void FailedTransaction(int mode)
+{
+	cout << "Transaction failed!\n";
+	if (mode == 1)
+		cout << "Not enough balance available\n";
+	if (mode == 2)
+		cout << "Cannot deposit a value less than or equal to zero.\n";
+}
+
+bool WithdrawMoney(int withdrawal)
 {
 	if (balance - withdrawal >= 0) {
-		LoadingScreen(); 	
 		balance -= withdrawal;
-		cout << "Transaction Successful!\n";
-		cout << withdrawal << " dollars withdrawn.\n";
-		cout << "New balance: $" << balance << "\n";
-	} else {							
-		cout << "Transaction failed!\n";
-		cout << "Not enough balance available\n";
+		return true;
+	} else {
+		return false;
 	}
 }
 
-void DepositMoney(int deposited)
+bool DepositMoney(int deposited)
 {
-	if (deposited > 0) {
-		LoadingScreen(); 	 
+	if (deposited > 0) {	 
 		balance += deposited;
-		cout << "Transaction Successful!\n";
-		cout << deposited << " dollars deposited.\n";
-		cout << "New balance: $" << balance << "\n";
+		return true;
 	} else {
-		cout << "Transaction failed!\n";
-		cout << "Deposited amount is not greater than 0.\n";
+		return false;
 	}
-
 }
 
 void BalanceInquiry()
 {	
-	LoadingScreen();
+	//LoadingScreen();
 	cout  << "Balance: $" << balance << "\n";
 }
 
@@ -75,16 +84,26 @@ int main()
 {
 	while (true)
 	{
-		LoadingScreen();
+		//LoadingScreen();
 		MainMenu();
 		UserSelect();
 		switch (UserSelection)
 		{
-			case 1:	WithdrawMoney(UserSelect()); break;
-			case 2:	DepositMoney(UserSelect());  break;
-			case 3:	BalanceInquiry(); 	     break;
-			case 4:	return 0;		     break;
-			default: cout << "Wrong Input!";     break;
+			case 1:	
+				if (WithdrawMoney(UserSelect())) 
+					SuccessfulTransaction(1);
+				else
+					FailedTransaction(1);
+				break;
+			case 2:	
+				if (DepositMoney(UserSelect()))
+					SuccessfulTransaction(2);
+				else 
+					FailedTransaction(2);
+				break;
+			case 3:	BalanceInquiry(); 	 		 break;
+			case 4:	return 0;		     		 break;
+			default: cout << "Wrong Input!\n";   break;
 		}
 	}
 	return 0;
