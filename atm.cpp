@@ -5,6 +5,7 @@ using namespace std;
 
 int UserSelection = -1;
 int balance = 10000;
+int PIN[1] = {1234};
 
 /*void LoadingScreen()
 {
@@ -18,12 +19,27 @@ int balance = 10000;
 		cout << loading[i] << flush;
 	}
 	cout << "\n";	
-
 }*/
 
-int UserSelect()
+void Authenticate()
 {
-	cout << ">> ";
+	int auth;
+	cout << "Please enter your PIN >> ";
+	cin >> auth;
+	if (auth != PIN[0]) {
+		cout << "Wrong PIN entered!\n";
+		Authenticate();
+	} else {
+		cout << "PIN Authenticated!\n";
+	}
+}
+
+int UserSelect(int mode=0)
+{
+	switch (mode) {
+		case 0: cout << ">> "; break;
+		case 1: cout << ">> $"; break;
+	}
 	cin >> UserSelection;
 	return UserSelection;
 }
@@ -82,6 +98,7 @@ void BalanceInquiry()
 
 int main()
 {
+	Authenticate();
 	while (true)
 	{
 		//LoadingScreen();
@@ -90,13 +107,13 @@ int main()
 		switch (UserSelection)
 		{
 			case 1:	
-				if (WithdrawMoney(UserSelect())) 
+				if (WithdrawMoney(UserSelect(1))) 
 					SuccessfulTransaction(1);
 				else
 					FailedTransaction(1);
 				break;
 			case 2:	
-				if (DepositMoney(UserSelect()))
+				if (DepositMoney(UserSelect(1)))
 					SuccessfulTransaction(2);
 				else 
 					FailedTransaction(2);
